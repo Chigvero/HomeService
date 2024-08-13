@@ -1,0 +1,7 @@
+db:
+  host: "localhost"
+  port: "5432"
+  username: "postgres"
+  password: "1111"
+  DBName: "avito"
+  SSLMode: "disable"
