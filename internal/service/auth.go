@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 	"time"
 )
 
@@ -19,7 +20,8 @@ const (
 
 type CustomClaim struct {
 	jwt.RegisteredClaims
-	UserType string `json:"role"`
+	UserType string    `json:"role"`
+	UserId   uuid.UUID `json:"user_id"`
 }
 
 func NewAuthService(authorization repository.Authorization) *AuthService {
@@ -37,16 +39,17 @@ func (s *AuthService) Login(user model.UserLogin) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	token, err := s.generateToken(user_type)
+	token, err := s.generateToken(user_type, user.Id)
 	if err != nil {
 		return "", err
 	}
 	return token, nil
 }
 
-func (s *AuthService) generateToken(user_type string) (string, error) {
+func (s *AuthService) generateToken(user_type string, userId uuid.UUID) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &CustomClaim{
 		UserType: user_type,
+		UserId:   userId,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(12 * time.Hour)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
@@ -55,7 +58,7 @@ func (s *AuthService) generateToken(user_type string) (string, error) {
 	return token.SignedString([]byte(key))
 }
 
-func (s *AuthService) ParseToken(tokenString string) (string, error) {
+func (s *AuthService) ParseToken(tokenString string) (model.UserLogin, error) {
 	//Почему ?&?CustomClaim
 	//Возможно понадобится еще id
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaim{}, func(token *jwt.Token) (interface{}, error) {
@@ -65,15 +68,19 @@ func (s *AuthService) ParseToken(tokenString string) (string, error) {
 		return []byte(key), nil
 	})
 	if err != nil {
-		return "", err
+		return model.UserLogin{}, err
 	}
 	claims, ok := token.Claims.(*CustomClaim)
 	if !ok {
-		return "", errors.New("token claims are not of type *tokenClaims")
+		return model.UserLogin{}, errors.New("token claims are not of type *tokenClaims")
 	}
-	return claims.UserType, nil
+	return model.UserLogin{
+		claims.UserId,
+		"",
+		claims.UserType,
+	}, nil
 }
 
-func (s *AuthService) DummyLogin() string {
-	return ""
+func (s *AuthService) DummyLogin(user_type string, id uuid.UUID) (string, error) {
+	return s.generateToken(user_type, id)
 }

@@ -19,10 +19,11 @@ func (h *Handler) authMiddleware(c *gin.Context) {
 		newErrorResponse(c, err, errorResponse{err.Error(), "request_id", 401})
 		return
 	}
-	user_type, err := h.service.Authorization.ParseToken(headerParts[1])
+	userLogin, err := h.service.Authorization.ParseToken(headerParts[1])
 	if err != nil {
 		newErrorResponse(c, err, errorResponse{err.Error(), "request_id", 401})
 		return
 	}
-	c.Set("user_type", user_type)
+	c.Set("user_type", userLogin.UserType)
+	c.Set("user_id", userLogin.Id)
 }

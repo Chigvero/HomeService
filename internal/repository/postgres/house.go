@@ -4,6 +4,7 @@ import (
 	"Avito/model"
 	"fmt"
 	"github.com/jmoiron/sqlx"
+	"github.com/sirupsen/logrus"
 )
 
 type HousePostgres struct {
@@ -32,9 +33,13 @@ func (r *HousePostgres) GetHouseModerFlatsList(houseId int) ([]model.Flat, error
 	if err != nil {
 		return flats, err
 	}
+	var zagl string
 	for rows.Next() {
 		var fl model.Flat
-		_ = rows.Scan(&fl.Id, &fl.HouseId, &fl.Price, &fl.Rooms, &fl.Status)
+		err = rows.Scan(&fl.Id, &fl.HouseId, &fl.Price, &fl.Rooms, &fl.Status, &zagl)
+		if err != nil {
+			logrus.Print(err)
+		}
 		flats = append(flats, fl)
 	}
 	return flats, nil
@@ -47,10 +52,15 @@ func (r *HousePostgres) GetHouseClientFlatsList(houseId int) ([]model.Flat, erro
 	if err != nil {
 		return flats, err
 	}
+	var zagl string
 	for rows.Next() {
 		var fl model.Flat
-		_ = rows.Scan(&fl.Id, &fl.HouseId, &fl.Price, &fl.Rooms, &fl.Status)
+		err = rows.Scan(&fl.Id, &fl.HouseId, &fl.Price, &fl.Rooms, &fl.Status, &zagl)
+		if err != nil {
+			logrus.Print(err)
+		}
 		flats = append(flats, fl)
 	}
+	fmt.Println(flats)
 	return flats, nil
 }

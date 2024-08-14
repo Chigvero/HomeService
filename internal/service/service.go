@@ -3,14 +3,15 @@ package service
 import (
 	"Avito/internal/repository"
 	"Avito/model"
+	"github.com/google/uuid"
 )
 
 type Authorization interface {
 	Register(user model.UserRegister) (string, error)
 	Login(user model.UserLogin) (string, error)
-	DummyLogin() string
-
-	ParseToken(tokenString string) (string, error)
+	DummyLogin(user_type string, user_id uuid.UUID) (string, error)
+	//GenerateToken(user_type string, userId uuid.UUID ) (string, error)
+	ParseToken(tokenString string) (model.UserLogin, error)
 }
 
 type House interface {
@@ -22,7 +23,8 @@ type House interface {
 
 type Flat interface {
 	Create(flat model.Flat) (model.Flat, error)
-	Update(id int, status string) (model.Flat, error)
+	Update(id int, status string, user_id uuid.UUID) (model.Flat, error)
+	GetById(id int) (model.Flat, error)
 }
 
 type Service struct {

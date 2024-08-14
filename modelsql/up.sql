@@ -24,5 +24,6 @@ CREATE TABLE flats (
                        price INT NOT NULL,
                        rooms INT NOT NULL,
                        status VARCHAR(50) CHECK (status IN ('created', 'approved','declined','on moderation')) default 'created' ,
+                       moderator_id UUID REFERENCES Users(id),
                        FOREIGN KEY (house_id) REFERENCES houses(id)
 );

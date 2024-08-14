@@ -3,6 +3,7 @@ package service
 import (
 	"Avito/internal/repository"
 	"Avito/model"
+	"github.com/google/uuid"
 )
 
 type FlatService struct {
@@ -18,6 +19,10 @@ func NewFlatService(repos repository.Flat) *FlatService {
 func (s *FlatService) Create(flat model.Flat) (model.Flat, error) {
 	return s.repos.Create(flat)
 }
-func (s *FlatService) Update(id int, status string) (model.Flat, error) {
-	return s.repos.Update(id, status)
+func (s *FlatService) Update(id int, status string, user_id uuid.UUID) (model.Flat, error) {
+	return s.repos.Update(id, status, user_id)
+}
+
+func (s *FlatService) GetById(id int) (model.Flat, error) {
+	return s.repos.GetById(id)
 }

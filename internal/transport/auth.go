@@ -2,7 +2,9 @@ package transport
 
 import (
 	"Avito/model"
+	"errors"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/lib/pq"
 	"github.com/sirupsen/logrus"
 )
@@ -65,5 +67,16 @@ func (h *Handler) login(c *gin.Context) {
 }
 
 func (h *Handler) dummyLogin(c *gin.Context) {
-
+	userType := c.Query("user_type")
+	if userType != "moderator" && userType != "client" {
+		err := errors.New("Incorrect user_type")
+		newErrorResponse(c, err, errorResponse{err.Error(), "request_id", 400})
+		return
+	}
+	user_id := uuid.New()
+	token, err := h.service.Authorization.DummyLogin(userType, user_id)
+	if err != nil {
+		newErrorResponse(c, err, errorResponse{"что то пошло не так", "request_id", 500})
+	}
+	c.JSON(200, token)
 }

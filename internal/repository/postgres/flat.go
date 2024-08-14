@@ -3,6 +3,7 @@ package postgres
 import (
 	"Avito/model"
 	"fmt"
+	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -39,19 +40,19 @@ func (r *FlatPostgres) Create(flat model.Flat) (model.Flat, error) {
 	}
 	return flat, nil
 }
-func (r *FlatPostgres) Update(id int, status string) (model.Flat, error) {
-	query := fmt.Sprintf("UPDATE %s SET status=$1 WHERE id=$2 ", flatTable)
-	_, err := r.db.Exec(query, status, id)
+func (r *FlatPostgres) Update(id int, status string, user_id uuid.UUID) (model.Flat, error) {
+	query := fmt.Sprintf("UPDATE %s SET status=$1, moderator_id=$2 WHERE id=$3 ", flatTable)
+	_, err := r.db.Exec(query, status, user_id, id)
 	if err != nil {
 		return model.Flat{}, err
 	}
-	return r.GetFlatById(id)
+	return r.GetById(id)
 }
 
-func (r *FlatPostgres) GetFlatById(id int) (model.Flat, error) {
+func (r *FlatPostgres) GetById(id int) (model.Flat, error) {
 	query := fmt.Sprintf("SELECT * FROM %s WHERE id=$1", flatTable)
 	var f model.Flat
-	err := r.db.QueryRow(query, id).Scan(&f.Id, &f.HouseId, &f.Price, &f.Rooms, &f.Status)
+	err := r.db.QueryRow(query, id).Scan(&f.Id, &f.HouseId, &f.Price, &f.Rooms, &f.Status, &f.ModeratorId)
 	if err != nil {
 		return model.Flat{}, err
 	}
