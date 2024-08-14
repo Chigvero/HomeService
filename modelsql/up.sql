@@ -19,11 +19,12 @@ CREATE TABLE houses (
 );
 
 CREATE TABLE flats (
-                       id SERIAL PRIMARY KEY,
+                       id INT,
                        house_id INT NOT NULL,
                        price INT NOT NULL,
                        rooms INT NOT NULL,
                        status VARCHAR(50) CHECK (status IN ('created', 'approved','declined','on moderation')) default 'created' ,
                        moderator_id UUID REFERENCES Users(id),
-                       FOREIGN KEY (house_id) REFERENCES houses(id)
+                       FOREIGN KEY (house_id) REFERENCES houses(id),
+                        PRIMARY KEY (house_id, id)
 );

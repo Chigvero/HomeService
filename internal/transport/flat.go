@@ -17,6 +17,10 @@ func (h *Handler) flatCreate(c *gin.Context) {
 	}
 	flat, err = h.service.Flat.Create(flat)
 	if err != nil {
+		if err.Error() == "pq: duplicate key value violates unique constraint \"flats_pkey\"" {
+			newErrorResponse(c, err, errorResponse{"Flat with this id was created earlier", "request_id", 500})
+			return
+		}
 		newErrorResponse(c, err, errorResponse{"Что то пошло не так", "request_id", 500})
 		return
 	}
@@ -24,8 +28,9 @@ func (h *Handler) flatCreate(c *gin.Context) {
 }
 
 type flatUpdate struct {
-	Id     int    `json:"id" binding:"required"`
-	Status string `json:"status" binding:"required"`
+	Id      int    `json:"id" binding:"required"`
+	HouseID int    `json:"house_id" binding:"required"`
+	Status  string `json:"status" binding:"required"`
 }
 
 func (h *Handler) flatUpdate(c *gin.Context) {
@@ -54,7 +59,7 @@ func (h *Handler) flatUpdate(c *gin.Context) {
 		newErrorResponse(c, err, errorResponse{"Invalid data type", "request_id", 400})
 		return
 	}
-	flat, err := h.service.Flat.GetById(flatUp.Id)
+	flat, err := h.service.Flat.GetById(flatUp.Id, flatUp.HouseID)
 	if err != nil {
 		newErrorResponse(c, err, errorResponse{"Flat with this id not found", "request_id", 500})
 		return
@@ -64,7 +69,7 @@ func (h *Handler) flatUpdate(c *gin.Context) {
 		newErrorResponse(c, err, errorResponse{"Flat is already in moderation or has been processed", "request_id", 400})
 		return
 	}
-	flat, err = h.service.Flat.Update(flatUp.Id, flatUp.Status, user_id)
+	flat, err = h.service.Flat.Update(flatUp.Id, flatUp.HouseID, flatUp.Status, user_id)
 	if err != nil {
 		newErrorResponse(c, err, errorResponse{"Что-то пошло не так", "request_id", 500})
 		return
