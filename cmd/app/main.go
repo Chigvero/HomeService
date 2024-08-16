@@ -45,7 +45,7 @@ func main() {
 	//}
 	//fmt.Println(email)
 	handlers := transport.NewHandler(services)
-	http.ListenAndServe("localhost:8080", handlers.InitRoutes())
+	http.ListenAndServe("0.0.0.0:8080", handlers.InitRoutes())
 }
 
 func InitConfig() error {

@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - new
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:12
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1111
+      - POSTGRES_DB=Avito
+    ports:
+      - "5432:5432"
+    networks:
+      - new
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d Avito" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - ./modelsql/up.sql:/docker-entrypoint-initdb.d/init.sql
+
+networks:
+  new:
