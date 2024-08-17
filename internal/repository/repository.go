@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"Avito/internal/repository/postgres"
-	"Avito/model"
+	"HomeService/internal/repository/postgres"
+	"HomeService/model"
 	"github.com/google/uuid"
 
 	"github.com/jmoiron/sqlx"

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"Avito/internal/repository"
-	"Avito/internal/repository/postgres"
-	"Avito/internal/service"
-	"Avito/internal/transport"
+	"HomeService/internal/repository"
+	"HomeService/internal/repository/postgres"
+	"HomeService/internal/service"
+	"HomeService/internal/transport"
 	"fmt"
 	"net/http"
 

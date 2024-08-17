@@ -1,8 +1,8 @@
 package service
 
 import (
-	"Avito/internal/repository"
-	"Avito/model"
+	"HomeService/internal/repository"
+	"HomeService/model"
 	"errors"
 	"fmt"
 	"github.com/golang-jwt/jwt/v5"

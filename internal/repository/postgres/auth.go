@@ -1,7 +1,7 @@
 package postgres
 
 import (
-	"Avito/model"
+	"HomeService/model"
 	"fmt"
 
 	"github.com/jmoiron/sqlx"

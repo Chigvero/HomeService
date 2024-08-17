@@ -1,7 +1,7 @@
 package transport
 
 import (
-	"Avito/internal/service"
+	"HomeService/internal/service"
 	"github.com/gin-gonic/gin"
 )
 

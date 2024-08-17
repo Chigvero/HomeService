@@ -1,8 +1,8 @@
 package service
 
 import (
-	"Avito/internal/repository"
-	"Avito/model"
+	"HomeService/internal/repository"
+	"HomeService/model"
 	"github.com/google/uuid"
 )
 
