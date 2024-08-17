@@ -1,8 +1,8 @@
 package service
 
 import (
-	"Avito/internal/repository"
-	"Avito/model"
+	"HomeService/internal/repository"
+	"HomeService/model"
 )
 
 type HouseService struct {

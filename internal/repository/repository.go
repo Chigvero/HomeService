@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"Avito/internal/repository/postgres"
-	"Avito/model"
+	"HomeService/internal/repository/postgres"
+	"HomeService/model"
 	"github.com/google/uuid"
 
 	"github.com/jmoiron/sqlx"
@@ -23,8 +23,8 @@ type House interface {
 
 type Flat interface {
 	Create(flat model.Flat) (model.Flat, error)
-	Update(id int, status string, user_id uuid.UUID) (model.Flat, error)
-	GetById(id int) (model.Flat, error)
+	Update(id int, house_id int, status string, user_id uuid.UUID) (model.Flat, error)
+	GetById(id, house_id int) (model.Flat, error)
 }
 
 type Repository struct {

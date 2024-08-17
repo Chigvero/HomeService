@@ -1,7 +1,7 @@
 package transport
 
 import (
-	"Avito/model"
+	"HomeService/model"
 	"errors"
 	"github.com/gin-gonic/gin"
 	"strconv"

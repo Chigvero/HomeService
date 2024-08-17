@@ -1,8 +1,8 @@
 package service
 
 import (
-	"Avito/internal/repository"
-	"Avito/model"
+	"HomeService/internal/repository"
+	"HomeService/model"
 	"github.com/google/uuid"
 )
 
@@ -23,8 +23,8 @@ type House interface {
 
 type Flat interface {
 	Create(flat model.Flat) (model.Flat, error)
-	Update(id int, status string, user_id uuid.UUID) (model.Flat, error)
-	GetById(id int) (model.Flat, error)
+	Update(id int, house_id int, status string, user_id uuid.UUID) (model.Flat, error)
+	GetById(id, house_id int) (model.Flat, error)
 }
 
 type Service struct {
