@@ -3,8 +3,11 @@ package service
 import (
 	"HomeService/internal/repository"
 	"HomeService/model"
+	_ "github.com/golang/mock/gomock"
 	"github.com/google/uuid"
 )
+
+//go:generate mockgen -source=service.go -destination=mocks/mock.go
 
 type Authorization interface {
 	Register(user model.UserRegister) (string, error)

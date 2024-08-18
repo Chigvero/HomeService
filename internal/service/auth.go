@@ -3,6 +3,7 @@ package service
 import (
 	"HomeService/internal/repository"
 	"HomeService/model"
+	"crypto/sha1"
 	"errors"
 	"fmt"
 	"github.com/golang-jwt/jwt/v5"
@@ -15,7 +16,8 @@ type AuthService struct {
 }
 
 const (
-	key = "myKey"
+	key  = "myKey"
+	salt = "myHASH"
 )
 
 type CustomClaim struct {
@@ -31,6 +33,7 @@ func NewAuthService(authorization repository.Authorization) *AuthService {
 }
 
 func (s *AuthService) Register(user model.UserRegister) (string, error) {
+	user.Password = generatePasswordHash(user.Password)
 	return s.repos.Register(user)
 }
 
@@ -83,4 +86,11 @@ func (s *AuthService) ParseToken(tokenString string) (model.UserLogin, error) {
 
 func (s *AuthService) DummyLogin(user_type string, id uuid.UUID) (string, error) {
 	return s.generateToken(user_type, id)
+}
+
+func generatePasswordHash(password string) string {
+	hash := sha1.New()
+	hash.Write([]byte(password))
+
+	return fmt.Sprintf("%x", hash.Sum([]byte(salt)))
 }
