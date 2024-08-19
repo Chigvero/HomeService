@@ -17,6 +17,11 @@ func (h *Handler) getHouseFlatsList(c *gin.Context) {
 	var (
 		flats flatsList
 	)
+	if user_type != "moderator" && user_type != "client" {
+		err := errors.New("Insufficient access rights ")
+		newErrorResponse(c, err, errorResponse{"Unauthorized access", "request_id", 401})
+		return
+	}
 	id := c.Param("id")
 	house_id, err := strconv.Atoi(id)
 	if err != nil {
@@ -54,7 +59,7 @@ func (h *Handler) createHouse(c *gin.Context) {
 	var house model.House
 	err := c.BindJSON(&house)
 	if err != nil {
-		newErrorResponse(c, err, errorResponse{err.Error(), "request_id", 400})
+		newErrorResponse(c, err, errorResponse{"Invalid data type", "request_id", 400})
 		return
 	}
 	house, err = h.service.House.Create(house)

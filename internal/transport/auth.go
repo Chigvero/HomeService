@@ -26,7 +26,7 @@ func (h *Handler) register(c *gin.Context) {
 		}
 		resp := errorResponse{
 			"Что-то пошло не так",
-			"request_id", //Надо разобраться
+			"request_id",
 			500,
 		}
 		newErrorResponse(c, err, resp)
@@ -57,7 +57,7 @@ func (h *Handler) login(c *gin.Context) {
 		}
 		resp := errorResponse{
 			"Что-то пошло не так",
-			"request_id", //Надо разобраться
+			"request_id",
 			500,
 		}
 		newErrorResponse(c, err, resp)

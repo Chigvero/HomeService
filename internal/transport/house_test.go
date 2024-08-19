@@ -37,7 +37,7 @@ func TestHandler_getHouseFlatsList_InvalidID(t *testing.T) {
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 
-	assert.Equal(t, http.StatusBadRequest, w.Code)
+	assert.Equal(t, 401, w.Code)
 }
 
 func TestHandler_createHouse_Client(t *testing.T) {

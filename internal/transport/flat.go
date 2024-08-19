@@ -66,7 +66,7 @@ func (h *Handler) flatUpdate(c *gin.Context) {
 	}
 	if flat.Status == "on moderation" && flat.ModeratorId != user_id {
 		err = errors.New("error: Flat is already in moderation or has been processed")
-		newErrorResponse(c, err, errorResponse{"Flat is already in moderation or has been processed", "request_id", 400})
+		newErrorResponse(c, err, errorResponse{"Flat is already in moderation or has been processed", "request_id", 401})
 		return
 	}
 	flat, err = h.service.Flat.Update(flatUp.Id, flatUp.HouseID, flatUp.Status, user_id)

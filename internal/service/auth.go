@@ -38,6 +38,7 @@ func (s *AuthService) Register(user model.UserRegister) (string, error) {
 }
 
 func (s *AuthService) Login(user model.UserLogin) (string, error) {
+	user.Password = generatePasswordHash(user.Password)
 	user_type, err := s.repos.Login(user)
 	if err != nil {
 		return "", err
@@ -62,8 +63,6 @@ func (s *AuthService) generateToken(user_type string, userId uuid.UUID) (string,
 }
 
 func (s *AuthService) ParseToken(tokenString string) (model.UserLogin, error) {
-	//Почему ?&?CustomClaim
-	//Возможно понадобится еще id
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaim{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])

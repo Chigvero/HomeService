@@ -33,17 +33,6 @@ func main() {
 	}
 	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
-	//serv := service.NewAuthService(repos.Authorization)
-	//token, err := serv.GenerateToken("nurmag@")
-	//fmt.Println("mykey:", []byte("myKey"))
-	//if err != nil {
-	//	logrus.Println(err)
-	//}
-	//email, err := serv.UserIdentity(token)
-	//if err != nil {
-	//	logrus.Println(err)
-	//}
-	//fmt.Println(email)
 	handlers := transport.NewHandler(services)
 	http.ListenAndServe("0.0.0.0:8080", handlers.InitRoutes())
 }

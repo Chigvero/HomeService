@@ -61,6 +61,5 @@ func (r *HousePostgres) GetHouseClientFlatsList(houseId int) ([]model.Flat, erro
 		}
 		flats = append(flats, fl)
 	}
-	fmt.Println(flats)
 	return flats, nil
 }

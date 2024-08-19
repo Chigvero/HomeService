@@ -13,7 +13,6 @@ type Authorization interface {
 	Register(user model.UserRegister) (string, error)
 	Login(user model.UserLogin) (string, error)
 	DummyLogin(user_type string, user_id uuid.UUID) (string, error)
-	//GenerateToken(user_type string, userId uuid.UUID ) (string, error)
 	ParseToken(tokenString string) (model.UserLogin, error)
 }
 

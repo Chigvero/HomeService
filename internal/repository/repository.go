@@ -9,7 +9,6 @@ import (
 )
 
 type Authorization interface {
-	//DummyLogin(user_type string)
 	Register(user model.UserRegister) (string, error)
 	Login(user model.UserLogin) (string, error)
 }
