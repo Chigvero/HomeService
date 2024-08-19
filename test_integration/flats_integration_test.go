@@ -64,6 +64,7 @@ func TestGetFlats(t *testing.T) {
 		}
 
 		req, err := authRequest("POST", fmt.Sprintf("%s/flat/create", baseURL), flatBody, moderatorToken)
+
 		if err != nil {
 			t.Fatalf("failed to create request: %v", err)
 		}

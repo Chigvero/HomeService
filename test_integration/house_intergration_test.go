@@ -47,6 +47,7 @@ func TestCreateHouse(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to send POST request: %v", err)
 	}
+
 	defer resp.Body.Close()
 
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
