@@ -32,7 +32,7 @@ func setup() {
 		log.Fatalf("failed to start docker-compose: %v", err)
 	}
 
-	time.Sleep(11 * time.Second)
+	time.Sleep(10 * time.Second)
 	log.Println("Starting...")
 
 	token, err := generateToken("moderator", user_id)

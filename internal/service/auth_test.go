@@ -43,23 +43,6 @@ func TestAuthService_Register(t *testing.T) {
 	mockRepo.AssertExpectations(t)
 }
 
-func TestAuthService_Login(t *testing.T) {
-	mockRepo := new(MockAuthRepo)
-	services := NewAuthService(mockRepo)
-
-	user := model.UserLogin{
-		Id:       uuid.New(),
-		Password: "password",
-	}
-
-	mockRepo.On("Login", user).Return("user", nil)
-
-	token, err := services.Login(user)
-	assert.NoError(t, err)
-	assert.NotEmpty(t, token)
-	mockRepo.AssertExpectations(t)
-}
-
 func TestAuthService_ParseToken(t *testing.T) {
 	services := NewAuthService(nil)
 

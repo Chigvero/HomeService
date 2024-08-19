@@ -14,7 +14,7 @@ func (h *Handler) register(c *gin.Context) {
 	err := c.BindJSON(&user)
 	if err != nil {
 		logrus.Error(err)
-		c.AbortWithStatusJSON(400, map[string]interface{}{"error": "Invalid data type"}) //?????
+		c.AbortWithStatusJSON(400, map[string]interface{}{"error": "Invalid data type1"}) //?????
 		return
 	}
 	id, err := h.service.Authorization.Register(user)
