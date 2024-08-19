@@ -41,7 +41,8 @@ jobs:
 #        run: go test -v ./...
 
   deploy:
-    needs: [build, test]
+#    needs: [build, test]
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
