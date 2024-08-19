@@ -53,7 +53,7 @@ jobs:
       - name: Install dependencies
         run: go mod download
       - name: Build
-        run: go build -o myapp ./...
+        run: go build -o myapp ./cmd/myapp
       - name: Deploy
         run: |
           # Здесь вы можете добавить команды для развертывания вашего приложения
