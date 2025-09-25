@@ -1,4 +1,3 @@
-# Тестовое задание Avito Backend Bootcamp
 
 ## Обзор сервиса
 
